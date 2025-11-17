@@ -48,7 +48,6 @@ function App() {
   const openProvider = (p) => {
     setSelectedProvider(p)
     setShowProfile(true)
-    // scroll to request form when provider chosen
     setTimeout(() => requestRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
   }
 
@@ -62,26 +61,35 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Header onSeed={runSeed} />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10 space-y-12">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10 space-y-14">
         <Hero onCTAClick={() => requestRef.current?.scrollIntoView({ behavior: 'smooth' })} />
 
         <TopSellers onSelectService={handleSelectService} onSelectProvider={openProvider} />
 
         <section className="space-y-4" id="categories">
-          <h2 className="text-2xl font-bold text-gray-900">Browse by category</h2>
+          <div className="flex items-end justify-between">
+            <h2 className="text-2xl font-bold text-slate-900">Browse by category</h2>
+            <p className="text-sm text-slate-500">Pick a category to see top local pros</p>
+          </div>
           <CategoryGrid categories={categories} selected={selectedCategory} onSelect={(c) => { setSelectedCategory(c); setSelectedProvider(null) }} />
         </section>
 
         <section className="space-y-4" id="providers">
-          <h2 className="text-2xl font-bold text-gray-900">Top providers{selectedCategory ? ` • ${selectedCategory}` : ''}</h2>
+          <div className="flex items-end justify-between">
+            <h2 className="text-2xl font-bold text-slate-900">Top providers{selectedCategory ? ` • ${selectedCategory}` : ''}</h2>
+            <p className="text-sm text-slate-500">Highly rated pros near you</p>
+          </div>
           <ProviderList providers={providers} onSelect={openProvider} />
         </section>
 
         <section ref={requestRef} className="space-y-4" id="quote">
-          <h2 className="text-2xl font-bold text-gray-900">Request a service</h2>
+          <div className="flex items-end justify-between">
+            <h2 className="text-2xl font-bold text-slate-900">Request a service</h2>
+            <p className="text-sm text-slate-500">Share details and get a fast quote</p>
+          </div>
           <RequestForm selectedProvider={selectedProvider} selectedCategory={selectedCategory} onSubmitted={() => setSelectedProvider(null)} />
         </section>
 
@@ -95,7 +103,7 @@ function App() {
       )}
 
       <style>{`
-        .input { @apply w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-200; }
+        .input { @apply w-full px-3.5 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 transition; }
       `}</style>
     </div>
   )
